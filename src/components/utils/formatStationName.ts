@@ -1,7 +1,6 @@
 function formatStationName(stopPoint: string) {
-    let newString: string = stopPoint.replace("DLR Station", "");
-    newString = newString.replace("Underground Station", "").replace("Rail Station", "");
-  return newString;
+    let newString: string = stopPoint.replace(/DLR Station|Underground Station|Rail Station/g, "");
+    return newString;
 }
 
 export default formatStationName;

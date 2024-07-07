@@ -30,10 +30,10 @@ const App = () => {
     //   <OneTransport tubeId="940GZZLUKSX" />
     // </>
     <div className="flex w-full h-full">
-      <div className="min-w-[300px] h-full">
+      <div className="md:min-w-[300px] h-full hidden md:flex">
         <SidebarNav />
       </div>
-      <div className="flex-auto p-4">
+      <div className="flex-auto basis-full p-4">
         <ArrivalsPage />
       </div>
     </div>

@@ -5,11 +5,6 @@ import filterStations from "../utils/filterStations";
 import formatStationName from "../utils/formatStationName";
 import removeBus from "../utils/removeBus";
 
-// interface stationsProps {
-//   name: string;
-//   lines: string[];
-// }
-
 interface StopPoint {
   stopType: string;
   commonName: string;
@@ -24,42 +19,8 @@ const ArrivalsPage = () => {
   const [stopPointData, setStopPointData] = useState<StopPoint[]>([]);
   const [stationId, setStationId] = useState<string>("940GZZDLCGT");
 
-  //   const stations: stationsProps[] = [
-  //     {
-  //       name: "Waterloo & City",
-  //       lines: ["bakerloo", "northern", "waterloo-city"],
-  //     },
-  //     {
-  //       name: "King's Cross St. Pancras",
-  //       lines: [
-  //         "circle",
-  //         "hammersmith-city",
-  //         "metropolitan",
-  //         "northern",
-  //         "piccadilly",
-  //         "victoria",
-  //       ],
-  //     },
-  //     {
-  //       name: "Oxford Circus",
-  //       lines: ["bakerloo", "central", "victoria"],
-  //     },
-  //     {
-  //       name: "Liverpool Street",
-  //       lines: ["central", "circle", "hammersmith-city", "metropolitan"],
-  //     },
-  //     {
-  //       name: "Victoria",
-  //       lines: ["circle", "district", "victoria"],
-  //     },
-  //     {
-  //       name: "Paddington",
-  //       lines: ["bakerloo", "circle", "district", "hammersmith-city"],
-  //     },
-  //   ];
-
   useEffect(() => {
-    fetch(`https://api.tfl.gov.uk/StopPoint/Mode/tube,dlr,elizabeth-line`)
+    fetch(`https://api.tfl.gov.uk/StopPoint/Mode/tube,dlr`)
       // fetch(`https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line`)
       .then((res) => {
         console.log(res.status, `AllTransport`);

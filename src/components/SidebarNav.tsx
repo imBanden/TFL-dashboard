@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MaterialSymbolsInfoOutline } from "../icons/MaterialSymbolsInfoOutline";
 import MaterialSymbolsTramOutline from "../icons/MaterialSymbolsTramOutline";
+import MaterialSymbolsMenu from "../icons/MaterialSymbolsMenu";
 
 const SidebarNav = () => {
   const [selected, setSelected] = useState<number>(0);
@@ -18,8 +19,11 @@ const SidebarNav = () => {
     },
   ];
   return (
-    <div className="flex flex-col border-r h-full border-r-gray-4000 p-4">
-      <p className="text-black text-lg pb-4">isMyTFLhere.com</p>
+    <div className="flex flex-col border-r h-full border-r-gray-4000 p-4 gap-4">
+      <div className="flex justify-between items-center">
+        <MaterialSymbolsMenu className="w-6 h-6 cursor-pointer" />
+        <p className="text-black text-lg">isMyTFLhere.com</p>
+      </div>
 
       <div className="flex flex-col gap-2">
         {navMenu.map((item, index) => (

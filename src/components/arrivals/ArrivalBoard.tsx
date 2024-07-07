@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MaterialSymbolsProgressActivity from "../../icons/MaterialSymbolsProgressActivity";
+import formatStationName from "../utils/formatStationName";
 
 interface trains {
   platformName: string;
@@ -102,29 +103,35 @@ const ArrivalBoard = ({ stationId }: { stationId: string }) => {
         <MaterialSymbolsProgressActivity className="w-12 h-12 text-white animate-spin" />
       )}
       {!isPending && (
-        <div className="w-[1040px] h-[540px] bg-gray-950 flex justify-center items-center rounded-2xl">
-          <div className="w-[1000px] h-[500px] bg-green-950 text-yellow-400 text-4xl font-dot-gothic flex flex-col items-center gap-y-4 overflow-y-auto scrollbar-hide">
+        <div className="w-full max-w-[1040px] h-[540px] bg-gray-950 flex justify-center items-center rounded-2xl">
+          <div className="w-full max-w-[1000px] h-[500px] bg-green-950 text-yellow-400 text-2xl md:text-4xl font-dot-gothic flex flex-col items-center gap-y-4 p-4">
             <p>{currentStation}</p>
             <p>{currentTime()}</p>
-            {Object.keys(separatedTrainData).map((platform, index) => (
-              <>
-                <div key={index}>{platform}</div>
-                <div className="w-full">
-                  {separatedTrainData[platform].map(
-                    (train: trainsCleaned, index) => (
-                      <div className="w-full flex justify-between" key={index}>
-                        <p>{train.destinationName}</p>
-                        <p>
-                          {train.expectedArrival != 0
-                            ? train.expectedArrival.toString() + " mins"
-                            : "due"}
-                        </p>
-                      </div>
-                    )
-                  )}
+            <div className="flex flex-col w-full overflow-y-auto scrollbar-hide gap-y-4">
+              {Object.keys(separatedTrainData).map((platform, index) => (
+                <div key={index} className="w-full">
+                  <div>{platform}</div>
+                  <div className="w-full h-[1px] bg-yellow-400" />
+                  <div className="w-full">
+                    {separatedTrainData[platform].map(
+                      (train: trainsCleaned, index) => (
+                        <div
+                          className="w-full flex justify-between"
+                          key={index}
+                        >
+                          <p>{formatStationName(train.destinationName)}</p>
+                          <p>
+                            {train.expectedArrival != 0
+                              ? train.expectedArrival.toString() + " mins"
+                              : "due"}
+                          </p>
+                        </div>
+                      )
+                    )}
+                  </div>
                 </div>
-              </>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       )}
