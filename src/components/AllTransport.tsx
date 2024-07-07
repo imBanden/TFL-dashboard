@@ -71,20 +71,18 @@ const AllTransport = () => {
         stopPointSearchData.map((stopPoint: stopPointItem, index) => (
           <div className="stop-points-container" key={index}>
             {removeStationString(stopPoint.commonName)}
-            <div className="stop-points-modes-log-container">
-              <img
-                className="stop-points-modes-logo"
-                src={stopPoint.modes.includes("dlr") ? dlrLogo : ""}
-              />
-              <img
-                className="stop-points-modes-logo"
-                src={stopPoint.modes.includes("tube") ? undergroundLogo : ""}
-              />
-              {/* {stopPoint.modes.includes("tube") && (
+            <img
+              className="stop-points-modes-logo"
+              src={stopPoint.modes.includes("dlr") ? dlrLogo : ""}
+            />
+            <img
+              className="stop-points-modes-logo"
+              src={stopPoint.modes.includes("tube") ? undergroundLogo : ""}
+            />
+            {/* {stopPoint.modes.includes("tube") && (
                 <OneTransport tubeId="stopPoint.naptanId" />
               )} */}
-              <div>{stopPoint.naptanId}</div>
-            </div>
+            {/* <div>{stopPoint.naptanId}</div> */}
           </div>
         ))
       ) : (

@@ -1,18 +1,36 @@
 :root {
-  --main-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --main-font: 'Inter', sans-serif;
   --tfl-blue: hsl(220, 79%, 32%);
   --normal-weight: 400;
   --bold: 700;
   --pixel-font: "Press Start 2P";
   --orange: hsl(35, 100%, 60%);
   --grey: hsl(0, 0%, 50%);
+
+  --colors-neutral0: #fff;
+  --colors-neutral1: #f6f8fa;
+  --colors-neutral2: #e2e4e9;
+  --colors-neutral3: #cdd0d5;
+  --colors-neutral4: #868c98;
+  --colors-neutral5: #525866;
+  --colors-neutral6: #31353f;
+  --colors-neutral7: #20232d;
+  --colors-neutral8: #161922;
+  --colors-neutral9: #0a0d14;
+
+  --colors-border: var(--colors-neutral2);
+  --colors-border-light: #ebebeb;
+  --border-radius: 8px;
+}
+
+#root {
+  height: 100vh;
 }
 
 body {
   font-family: var(--main-font);
-  font-size: 40px;
-  display: flex;
-  justify-content: center;
+  font-size: 14px;
+  height: 100vh;
 }
 
 .arrival-times-box {
@@ -75,4 +93,8 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
 }

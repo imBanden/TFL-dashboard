@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import MaterialSymbolsProgressActivity from "../../icons/MaterialSymbolsProgressActivity";
 
 interface trains {
   platformName: string;
@@ -11,18 +12,14 @@ interface trainsCleaned {
   destinationName: string;
   expectedArrival: number;
 }
-interface Props {
-  stationId: string;
-}
 
-const StationArrivals = ({ stationId }: Props) => {
+const ArrivalBoard = ({ stationId }: { stationId: string }) => {
   const [currentStation, setCurrentStation] = useState<string>("");
   const [arrivalData, setArrivalData] = useState<trains[]>([]);
   const [isPending, setIsPending] = useState(true);
   useEffect(() => {
     const fetchData = () => {
-      // fetch(`https://api.tfl.gov.uk/StopPoint/${stationId}/Arrivals`)
-      fetch(`https://api.tfl.gov.uk/StopPoint/940GZZDLCGT/Arrivals`)
+      fetch(`https://api.tfl.gov.uk/StopPoint/${stationId}/Arrivals`)
         .then((res) => {
           console.log(res.status, "StationArrivals");
           return res.json();
@@ -92,6 +89,8 @@ const StationArrivals = ({ stationId }: Props) => {
     separatedTrainData[platform].push(arrival);
   });
 
+  //   setIsPending(false);
+
   function currentTime() {
     const now = new Date();
     return now.toLocaleTimeString("en-GB");
@@ -99,37 +98,38 @@ const StationArrivals = ({ stationId }: Props) => {
 
   return (
     <>
-      {isPending && <div>Loading...</div>}
-      <div className="arrival-times-box">
-        <div className="arrival-times-container">
-          <div className="arrival-times-current-station">{currentStation}</div>
-          <div className="arrival-times-current-time">{currentTime()}</div>
-          {Object.keys(separatedTrainData).map((platform, index) => (
-            <>
-              <div key={index}>{platform.toUpperCase()}</div>
-              <ul>
-                {separatedTrainData[platform].map(
-                  (train: trainsCleaned, index) => (
-                    <div
-                      className="arrival-destination-time-container"
-                      key={index}
-                    >
-                      <div>{train.destinationName.toUpperCase()}</div>
-                      <div>
-                        {train.expectedArrival != 0
-                          ? train.expectedArrival.toString() + "MIN"
-                          : "DUE"}
+      {isPending && (
+        <MaterialSymbolsProgressActivity className="w-12 h-12 text-white animate-spin" />
+      )}
+      {!isPending && (
+        <div className="w-[1040px] h-[540px] bg-gray-950 flex justify-center items-center rounded-2xl">
+          <div className="w-[1000px] h-[500px] bg-green-950 text-yellow-400 text-4xl font-dot-gothic flex flex-col items-center gap-y-4 overflow-y-auto scrollbar-hide">
+            <p>{currentStation}</p>
+            <p>{currentTime()}</p>
+            {Object.keys(separatedTrainData).map((platform, index) => (
+              <>
+                <div key={index}>{platform}</div>
+                <div className="w-full">
+                  {separatedTrainData[platform].map(
+                    (train: trainsCleaned, index) => (
+                      <div className="w-full flex justify-between" key={index}>
+                        <p>{train.destinationName}</p>
+                        <p>
+                          {train.expectedArrival != 0
+                            ? train.expectedArrival.toString() + " mins"
+                            : "due"}
+                        </p>
                       </div>
-                    </div>
-                  )
-                )}
-              </ul>
-            </>
-          ))}
+                    )
+                  )}
+                </div>
+              </>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
 
-export default StationArrivals;
+export default ArrivalBoard;

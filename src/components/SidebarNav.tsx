@@ -1,0 +1,48 @@
+import { useState } from "react";
+import { MaterialSymbolsInfoOutline } from "../icons/MaterialSymbolsInfoOutline";
+import MaterialSymbolsTramOutline from "../icons/MaterialSymbolsTramOutline";
+
+const SidebarNav = () => {
+  const [selected, setSelected] = useState<number>(0);
+
+  const navMenu = [
+    {
+      icon: MaterialSymbolsTramOutline,
+      text: "Train arrivals",
+      selected: 0,
+    },
+    {
+      icon: MaterialSymbolsInfoOutline,
+      text: "About this app",
+      selected: 1,
+    },
+  ];
+  return (
+    <div className="flex flex-col border-r h-full border-r-gray-4000 p-4">
+      <p className="text-black text-lg pb-4">isMyTFLhere.com</p>
+
+      <div className="flex flex-col gap-2">
+        {navMenu.map((item, index) => (
+          <div
+            key={index}
+            className={`flex items-center gap-2 cursor-pointer ${
+              selected === item.selected ? "bg-gray-100" : "hover:bg-gray-100"
+            } rounded-md p-2`}
+            onClick={() => setSelected(item.selected)}
+          >
+            <item.icon />
+            <p
+              className={`text-black text-sm ${
+                selected === item.selected && "font-semibold"
+              }`}
+            >
+              {item.text}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default SidebarNav;
