@@ -103,9 +103,9 @@ const ArrivalBoard = ({ stationId }: { stationId: string }) => {
         <MaterialSymbolsProgressActivity className="w-12 h-12 text-white animate-spin" />
       )}
       {!isPending && (
-        <div className="w-full max-w-[1040px] h-[540px] bg-gray-950 flex justify-center items-center rounded-2xl">
-          <div className="w-full max-w-[1000px] h-[500px] bg-green-950 text-yellow-400 text-2xl md:text-4xl font-dot-gothic flex flex-col items-center gap-y-4 p-4">
-            <p>{currentStation}</p>
+        <div className="w-full max-w-[1040px] md:h-[540px] h-[calc(100vh-140px)] bg-gray-950 flex justify-center items-center rounded-2xl p-4">
+          <div className="w-full h-full bg-green-950 text-yellow-400 text-2xl md:text-4xl font-dot-gothic flex flex-col items-center gap-y-4 p-4 rounded-xl">
+            <p className="text-center">{currentStation}</p>
             <p>{currentTime()}</p>
             <div className="flex flex-col w-full overflow-y-auto scrollbar-hide gap-y-4">
               {Object.keys(separatedTrainData).map((platform, index) => (
@@ -120,7 +120,7 @@ const ArrivalBoard = ({ stationId }: { stationId: string }) => {
                           key={index}
                         >
                           <p>{formatStationName(train.destinationName)}</p>
-                          <p>
+                          <p className="whitespace-nowrap">
                             {train.expectedArrival != 0
                               ? train.expectedArrival.toString() + " mins"
                               : "due"}

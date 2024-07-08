@@ -2,6 +2,9 @@ const formatLineName = (lineName: string) => {
     if (lineName === 'hammersmith-city') {
         return 'Hammersmith & City';
     }
+    if (lineName === 'waterloo-city') {
+        return 'Waterloo & City';
+    }
     if (lineName === 'dlr') {
         return 'DLR';
     }

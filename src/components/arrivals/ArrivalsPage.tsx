@@ -4,6 +4,7 @@ import StationWidget from "./StationWidget";
 import filterStations from "../utils/filterStations";
 import formatStationName from "../utils/formatStationName";
 import removeBus from "../utils/removeBus";
+import MaterialSymbolsCancel from "../../icons/MaterialSymbolsCancel";
 
 interface StopPoint {
   stopType: string;
@@ -54,18 +55,7 @@ const ArrivalsPage = () => {
             setSearchQuery(e.target.value);
           }}
         />
-        <div className="flex-auto basis-full flex flex-row flex-wrap gap-4 overflow-y-auto scrollbar-hide justify-center">
-          {/* {stations.map(
-            (station, index) =>
-              filterStations(searchQuery, station.name) && (
-                <StationWidget
-                  key={index}
-                  name={station.name}
-                  lines={station.lines}
-                  setStationClicked={() => setStationClicked(true)}
-                />
-              )
-          )} */}
+        <div className="flex flex-row flex-wrap flex-grow gap-4 overflow-y-auto scrollbar-hide p-2">
           {stopPointData.map(
             (stopPoint, index) =>
               filterStations(
@@ -87,14 +77,18 @@ const ArrivalsPage = () => {
         </div>
       </div>
       <div
-        className={`w-full h-full bg-gray-950/50 flex flex-col absolute top-0 left-0 z-10 justify-center items-center ${
+        className={`w-full h-full bg-gray-950/50 flex flex-col absolute top-0 left-0 z-10 md:justify-center items-center ${
           stationClicked
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         } transition-opacity duration-300`}
-        onClick={() => setStationClicked(false)}
       >
         <ArrivalBoard stationId={stationId} />
+        <div className="flex-grow flex justify-center items-center">
+          <button onClick={() => setStationClicked(false)}>
+            <MaterialSymbolsCancel className="w-16 h-16 text-gray-200 shadow-lg hover:scale-105 transition-all duration-300" />
+          </button>
+        </div>
       </div>
     </>
   );

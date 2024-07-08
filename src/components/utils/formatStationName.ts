@@ -1,5 +1,6 @@
 function formatStationName(stopPoint: string) {
-    let newString: string = stopPoint.replace(/DLR Station|Underground Station|Rail Station/g, "");
+    if (!stopPoint) return "";
+    let newString: string = stopPoint.replace(/Underground Station|Rail Station/g, "");
     return newString;
 }
 
