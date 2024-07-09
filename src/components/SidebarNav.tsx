@@ -2,8 +2,13 @@ import { useState } from "react";
 import { MaterialSymbolsInfoOutline } from "../icons/MaterialSymbolsInfoOutline";
 import MaterialSymbolsTramOutline from "../icons/MaterialSymbolsTramOutline";
 import MaterialSymbolsMenu from "../icons/MaterialSymbolsMenu";
+import MaterialSymbolsStickyNote2Outline from "../icons/MaterialSymbolsStickyNote2Outline";
 
-const SidebarNav = () => {
+interface SidebarNavProps {
+  handleSelectedPage: (selected: number) => void;
+}
+
+const SidebarNav = ({ handleSelectedPage }: SidebarNavProps) => {
   const [selected, setSelected] = useState<number>(0);
 
   const navMenu = [
@@ -17,10 +22,15 @@ const SidebarNav = () => {
       text: "About this app",
       selected: 1,
     },
+    {
+      icon: MaterialSymbolsStickyNote2Outline,
+      text: "Patch notes",
+      selected: 2,
+    },
   ];
   return (
-    <div className="flex flex-col border-r h-full border-r-gray-4000 p-4 gap-4">
-      <div className="flex justify-between items-center">
+    <div className="flex flex-col border-r w-full h-full border-r-gray-4000 p-4 gap-4">
+      <div className="flex items-center gap-4">
         <MaterialSymbolsMenu className="w-6 h-6 cursor-pointer" />
         <p className="text-black text-lg">isMyTFLhere.com</p>
       </div>
@@ -32,7 +42,10 @@ const SidebarNav = () => {
             className={`flex items-center gap-2 cursor-pointer ${
               selected === item.selected ? "bg-gray-100" : "hover:bg-gray-100"
             } rounded-md p-2`}
-            onClick={() => setSelected(item.selected)}
+            onClick={() => {
+              setSelected(item.selected);
+              handleSelectedPage(item.selected);
+            }}
           >
             <item.icon />
             <p

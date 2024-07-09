@@ -1,21 +1,29 @@
 import formatLineName from "../utils/formatLineName";
+import { stationStatus } from "../arrivals/ArrivalsPage";
+import WarningBadge from "../WarningBadge";
 
 interface StationWidgetProps {
   name: string;
   lines: string[];
   id: string;
+  status: stationStatus[];
   setStationClicked: (id: string) => void;
+  setDisruptionReason: (reason: string, showMessage: boolean) => void;
 }
 
 const StationWidget = ({
   name,
   lines,
   id,
+  status,
   setStationClicked,
+  setDisruptionReason,
 }: StationWidgetProps) => {
   const handleClick = () => {
     setStationClicked(id);
   };
+
+  console.log(status);
 
   return (
     <div
@@ -35,13 +43,51 @@ const StationWidget = ({
       <div className="bg-victoria w-1 h-1" />
       <div className="bg-waterloo-city w-1 h-1" />
       <div className="bg-dlr w-1 h-1" /> */}
+
+      {/* <div className="border-l-bakerloo w-1 h-1" />
+      <div className="border-l-central w-1 h-1" />
+      <div className="border-l-circle w-1 h-1" />
+      <div className="border-l-district w-1 h-1" />
+      <div className="border-l-elizabeth w-1 h-1" />
+      <div className="border-l-hammersmith-city w-1 h-1" />
+      <div className="border-l-jubilee w-1 h-1" />
+      <div className="border-l-metropolitan w-1 h-1" />
+      <div className="border-l-northern w-1 h-1" />
+      <div className="border-l-piccadilly w-1 h-1" />
+      <div className="border-l-victoria w-1 h-1" />
+      <div className="border-l-waterloo-city w-1 h-1" />
+      <div className="border-l-dlr w-1 h-1" /> */}
       <p
         className="md:text-3
       2xl text-xl"
       >
         {name}
       </p>
-      {/* <p className="text-sm text-gray-500">{id}</p> */}
+      <div className="w-full flex overflow-x-auto gap-2 scrollbar-hide">
+        {status.map(
+          (item) =>
+            lines.includes(item.id) && (
+              <>
+                {item.lineStatuses.map(
+                  (lineStatus, index) =>
+                    lineStatus.statusSeverityDescription != "Good Service" && (
+                      <WarningBadge
+                        key={index}
+                        lineId={item.id}
+                        lineStatusDescription={
+                          lineStatus.statusSeverityDescription
+                        }
+                        reason={lineStatus.reason}
+                        handleHover={(disruptionReason, showMessage) =>
+                          setDisruptionReason(disruptionReason, showMessage)
+                        }
+                      />
+                    )
+                )}
+              </>
+            )
+        )}
+      </div>
       <div className="flex flex-row flex-wrap gap-2">
         {lines.map((line, index) => (
           <div key={index} className="flex flex-col">

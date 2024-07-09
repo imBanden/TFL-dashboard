@@ -1,45 +1,53 @@
-// import { useState } from "react";
+import { useState } from "react";
 import "./App.css";
-// import ChooseTransportMode from "./components/ChooseTransportMode";
-// import ModeStopPoints from "./components/ModesStopPoints";
-// import StationArrivals from "./components/StationArrivals";
-// import AllTransport from "./components/AllTransport";
-// import OneTransport from "./components/OneTransport";
 import SidebarNav from "./components/SidebarNav";
+import AboutPage from "./components/about/AboutPage";
 import ArrivalsPage from "./components/arrivals/ArrivalsPage";
 import MaterialSymbolsMenu from "./icons/MaterialSymbolsMenu";
-// import GetAllTube from "./components/GetAllTube";
+import NotesPage from "./components/notes/NotesPage";
 
 const App = () => {
-  // const [transportModeName, setTransportModeName] = useState<string>("dlr");
-  // const [stationId, setStationId] = useState<string>("940GZZDLSOQ");
+  const [currPageIndex, setCurrPageIndex] = useState<number>(0);
+  const [sideBarClicked, setSideBarClicked] = useState<boolean>(false);
 
   return (
-    // <>
-    //   <div>Choose Mode</div>
-    //   <ChooseTransportMode
-    //     onTransportModeNameClick={(transportModeName) => {
-    //       setTransportModeName(transportModeName);
-    //     }}
-    //   />
-    //   <ModeStopPoints
-    //     onNaptanIdClick={(naptanId) => setStationId(naptanId)}
-    //     transportMode={transportModeName}
-    //   />
-    //   <StationArrivals stationId={stationId} />
-    //   <AllTransport />
-    //   <OneTransport tubeId="940GZZLUKSX" />
-    // </>
     <div className="flex w-full h-full overflow-hidden">
       <div className="md:min-w-[300px] h-full hidden md:flex">
-        <SidebarNav />
+        <SidebarNav handleSelectedPage={(index) => setCurrPageIndex(index)} />
       </div>
       <div className="flex flex-col flex-auto basis-full p-4 gap-4">
-        <div className="flex gap-4 items-center">
-          <MaterialSymbolsMenu className="w-6 h-6 cursor-pointer" />
+        <div className="flex gap-4 items-center md:hidden">
+          <button onClick={() => setSideBarClicked(true)}>
+            <MaterialSymbolsMenu className="w-6 h-6 cursor-pointer" />
+          </button>
           <p className="text-black text-lg">isMyTFLhere.com</p>
         </div>
-        <ArrivalsPage />
+        {currPageIndex === 0 && <ArrivalsPage />}
+        {currPageIndex === 1 && <AboutPage />}
+        {currPageIndex === 2 && <NotesPage />}
+      </div>
+
+      {/* Menu slider */}
+      <div
+        className={`w-full h-full bg-gray-950/50 flex flex-col absolute top-0 left-0 z-10 ${
+          sideBarClicked
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        } transition-opacity duration-300`}
+        onClick={() => setSideBarClicked(false)}
+      >
+        <div
+          className={`w-[300px] h-full flex bg-white -translate-x-full opacity-100 transition-transform duration-300 ${
+            sideBarClicked && "translate-x-0"
+          } `}
+        >
+          <SidebarNav
+            handleSelectedPage={(index) => {
+              setCurrPageIndex(index);
+              setSideBarClicked(false);
+            }}
+          />
+        </div>
       </div>
     </div>
   );

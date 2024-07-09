@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import MaterialSymbolsProgressActivity from "../../icons/MaterialSymbolsProgressActivity";
 import formatStationName from "../utils/formatStationName";
 
 interface trains {
@@ -19,10 +18,11 @@ const ArrivalBoard = ({ stationId }: { stationId: string }) => {
   const [arrivalData, setArrivalData] = useState<trains[]>([]);
   const [isPending, setIsPending] = useState(true);
   useEffect(() => {
+    setIsPending(true);
     const fetchData = () => {
       fetch(`https://api.tfl.gov.uk/StopPoint/${stationId}/Arrivals`)
         .then((res) => {
-          console.log(res.status, "StationArrivals");
+          console.log(res.status, "fetched data for Arrival Board");
           return res.json();
         })
         .then((data) => {
@@ -98,13 +98,12 @@ const ArrivalBoard = ({ stationId }: { stationId: string }) => {
   }
 
   return (
-    <>
-      {isPending && (
-        <MaterialSymbolsProgressActivity className="w-12 h-12 text-white animate-spin" />
-      )}
-      {!isPending && (
-        <div className="w-full max-w-[1040px] md:h-[540px] h-[calc(100vh-140px)] bg-gray-950 flex justify-center items-center rounded-2xl p-4">
-          <div className="w-full h-full bg-green-950 text-yellow-400 text-2xl md:text-4xl font-dot-gothic flex flex-col items-center gap-y-4 p-4 rounded-xl">
+    <div className="w-full max-w-[1040px] md:h-[540px] h-[calc(100vh-140px)] bg-gray-950 flex justify-center items-center rounded-2xl p-4">
+      <div className="w-full h-full bg-green-950 text-yellow-400 text-2xl md:text-4xl font-dot-gothic flex flex-col items-center gap-y-4 p-4 rounded-xl">
+        {isPending ? (
+          <p>Loading...</p>
+        ) : (
+          <>
             <p className="text-center">{currentStation}</p>
             <p>{currentTime()}</p>
             <div className="flex flex-col w-full overflow-y-auto scrollbar-hide gap-y-4">
@@ -132,10 +131,10 @@ const ArrivalBoard = ({ stationId }: { stationId: string }) => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      )}
-    </>
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 
