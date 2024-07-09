@@ -19,8 +19,8 @@ const WarningBadge = ({
       onTouchStart={() => handleHover(reason, true)}
       onTouchEnd={() => handleHover(reason, false)}
     >
-      <p>⚠️</p>
-      <p className="text-xs text-gray-black whitespace-nowrap">
+      <p className="select-none">⚠️</p>
+      <p className="text-xs text-gray-black whitespace-nowrap select-none">
         {lineStatusDescription}
       </p>
     </div>
