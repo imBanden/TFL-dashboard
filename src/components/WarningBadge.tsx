@@ -1,4 +1,4 @@
-import lineColors from "../components/utils/lineColors";
+import { borderLLineColors } from "../components/utils/lineColors";
 import TwemojiWarning from "../icons/TwemojiWarning";
 
 interface WarningBadgeProps {
@@ -16,10 +16,7 @@ const WarningBadge = ({
 }: WarningBadgeProps) => {
   return (
     <div
-      className={`flex gap-2 items-center bg-yellow-100 px-2 py-1 border-l-4 ${lineColors(
-        lineId,
-        "border-l"
-      )} pr-4`}
+      className={`flex gap-2 items-center bg-yellow-100 px-2 py-1 border-l-4 ${borderLLineColors[lineId]} pr-4`}
       onMouseEnter={() => handleHover(reason, true, lineId)}
       onMouseLeave={() => handleHover(reason, false, lineId)}
       onTouchStart={() => handleHover(reason, true, lineId)}

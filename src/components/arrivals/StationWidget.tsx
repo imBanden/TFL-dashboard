@@ -1,5 +1,5 @@
 import formatLineName from "../utils/formatLineName";
-import lineColors from "../utils/lineColors";
+import { bgLineColors } from "../utils/lineColors";
 import { stationStatus } from "../arrivals/ArrivalsPage";
 import WarningBadge from "../WarningBadge";
 import MaterialSymbolsFavorite from "../../icons/MaterialSymbolsFavorite";
@@ -89,7 +89,7 @@ const StationWidget = ({
             <p className="text-sm text-gray-500 px-0.5 select-none">
               {formatLineName(line)}
             </p>
-            <div className={`h-1 ${lineColors(line, "bg")} rounded-full`} />
+            <div className={`h-1 ${bgLineColors[line]} rounded-full`} />
           </div>
         ))}
       </div>

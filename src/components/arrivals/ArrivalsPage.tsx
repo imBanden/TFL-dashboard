@@ -7,7 +7,7 @@ import removeBus from "../utils/removeBus";
 import MaterialSymbolsCancel from "../../icons/MaterialSymbolsCancel";
 import MaterialSymbolsProgressActivity from "../../icons/MaterialSymbolsProgressActivity";
 import highlightStationName from "../utils/highlightStationName";
-import lineColors from "../utils/lineColors";
+import { bgLineColors } from "../utils/lineColors";
 
 export interface StopPoint {
   stopType: string;
@@ -160,10 +160,7 @@ const ArrivalsPage = ({
             {highlightStationName(disruption.reason, true)}
           </p>
           <div
-            className={`h-1 ${lineColors(
-              disruption.lineId,
-              "bg"
-            )} rounded-full`}
+            className={`h-1 ${bgLineColors[disruption.lineId]} rounded-full`}
           />
 
           <p className={`flex text-md text-gray-600 pl-4`}>
