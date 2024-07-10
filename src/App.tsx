@@ -2,13 +2,15 @@ import { useState } from "react";
 import "./App.css";
 import SidebarNav from "./components/SidebarNav";
 import AboutPage from "./components/about/AboutPage";
-import ArrivalsPage from "./components/arrivals/ArrivalsPage";
+import ArrivalsPage, { StopPoint } from "./components/arrivals/ArrivalsPage";
 import MaterialSymbolsMenu from "./icons/MaterialSymbolsMenu";
 import NotesPage from "./components/notes/NotesPage";
+import FavouritePage from "./components/favourite/FavouritePage";
 
 const App = () => {
   const [currPageIndex, setCurrPageIndex] = useState<number>(0);
   const [sideBarClicked, setSideBarClicked] = useState<boolean>(false);
+  const [favouriteData, setFavouriteData] = useState<StopPoint[]>([]);
 
   return (
     <div className="flex w-full h-full overflow-hidden">
@@ -22,9 +24,12 @@ const App = () => {
           </button>
           <p className="text-black text-lg">isMyTFLhere.com</p>
         </div>
-        {currPageIndex === 0 && <ArrivalsPage />}
+        {currPageIndex === 0 && (
+          <ArrivalsPage favouriteData={(data) => setFavouriteData(data)} />
+        )}
         {currPageIndex === 1 && <AboutPage />}
         {currPageIndex === 2 && <NotesPage />}
+        {currPageIndex === 3 && <FavouritePage favouriteData={favouriteData} />}
       </div>
 
       {/* Menu slider */}

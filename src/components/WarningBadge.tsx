@@ -1,8 +1,11 @@
+import lineColors from "../components/utils/lineColors";
+import TwemojiWarning from "../icons/TwemojiWarning";
+
 interface WarningBadgeProps {
   lineId: string;
   lineStatusDescription: string;
   reason: string;
-  handleHover: (reason: string, showMessage: boolean) => void;
+  handleHover: (reason: string, showMessage: boolean, lineId: string) => void;
 }
 
 const WarningBadge = ({
@@ -13,14 +16,17 @@ const WarningBadge = ({
 }: WarningBadgeProps) => {
   return (
     <div
-      className={`flex gap-2 items-baseline bg-yellow-100 px-2 border-l-4 border-l-${lineId} pr-4`}
-      onMouseEnter={() => handleHover(reason, true)}
-      onMouseLeave={() => handleHover(reason, false)}
-      onTouchStart={() => handleHover(reason, true)}
-      onTouchEnd={() => handleHover(reason, false)}
+      className={`flex gap-2 items-center bg-yellow-100 px-2 py-1 border-l-4 ${lineColors(
+        lineId,
+        "border-l"
+      )} pr-4`}
+      onMouseEnter={() => handleHover(reason, true, lineId)}
+      onMouseLeave={() => handleHover(reason, false, lineId)}
+      onTouchStart={() => handleHover(reason, true, lineId)}
+      onTouchEnd={() => handleHover(reason, false, lineId)}
     >
-      <p className="select-none">⚠️</p>
-      <p className="text-xs text-gray-black whitespace-nowrap select-none">
+      <TwemojiWarning className="h-4" />
+      <p className="text-xs text-gray-black whitespace-nowrap select-none translate-y-[1px]">
         {lineStatusDescription}
       </p>
     </div>

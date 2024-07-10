@@ -6,8 +6,10 @@ import formatStationName from "../utils/formatStationName";
 import removeBus from "../utils/removeBus";
 import MaterialSymbolsCancel from "../../icons/MaterialSymbolsCancel";
 import MaterialSymbolsProgressActivity from "../../icons/MaterialSymbolsProgressActivity";
+import highlightStationName from "../utils/highlightStationName";
+import lineColors from "../utils/lineColors";
 
-interface StopPoint {
+export interface StopPoint {
   stopType: string;
   commonName: string;
   lines: { id: string }[];
@@ -20,16 +22,25 @@ export interface stationStatus {
   lineStatuses: any[];
 }
 
-const ArrivalsPage = () => {
+const ArrivalsPage = ({
+  favouriteData,
+}: {
+  favouriteData: (array: StopPoint[]) => void;
+}) => {
   const [stationClicked, setStationClicked] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [stopPointData, setStopPointData] = useState<StopPoint[]>([]);
   const [stationId, setStationId] = useState<string>("940GZZDLCGT");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [statusArray, setStatusArray] = useState<stationStatus[]>([]);
-  const [disruptionReason, setDisruptionReason] = useState<string>("");
-  const [showDisruptionMessage, setShowDisruptionMessage] =
-    useState<boolean>(false);
+  const [disruption, setDisruption] = useState<{
+    reason: string;
+    showMessage: boolean;
+    lineId: string;
+  }>({ reason: "", showMessage: false, lineId: "" });
+  const [favouriteStopPoints, setFavouriteStopPoints] = useState<StopPoint[]>(
+    []
+  );
 
   useEffect(() => {
     fetch(`https://api.tfl.gov.uk/StopPoint/Mode/tube,dlr`)
@@ -67,27 +78,6 @@ const ArrivalsPage = () => {
     id: line.id,
     lineStatuses: line.lineStatuses,
   }));
-
-  // const status = [
-  //   {
-  //     id: "circle",
-  //     lineStatuses: [
-  //       { statusSeverityDescription: "You gay", reason: "You is too hot" },
-  //       { statusSeverityDescription: "Kuka gay", reason: "Kuka is too hot" },
-  //       {
-  //         statusSeverityDescription: "brandon gay",
-  //         reason: "brandon is too hot",
-  //       },
-  //     ],
-  //   },
-
-  //   {
-  //     id: "district",
-  //     lineStatuses: [
-  //       { statusSeverityDescription: "he gay", reason: "he is too hot" },
-  //     ],
-  //   },
-  // ];
 
   return (
     <>
@@ -127,9 +117,15 @@ const ArrivalsPage = () => {
                       setStationId(id);
                       setStationClicked(true);
                     }}
-                    setDisruptionReason={(reason, showMessage) => {
-                      setDisruptionReason(reason);
-                      setShowDisruptionMessage(showMessage);
+                    setDisruptionReason={(reason, showMessage, lineId) => {
+                      setDisruption({ reason, showMessage, lineId });
+                    }}
+                    addToFavourites={(isFavourite) => {
+                      console.log(isFavourite);
+                      if (isFavourite) {
+                        favouriteData([stopPoint, ...favouriteStopPoints]);
+                        setFavouriteStopPoints((prev) => [stopPoint, ...prev]);
+                      }
                     }}
                   />
                 )
@@ -147,21 +143,31 @@ const ArrivalsPage = () => {
         <ArrivalBoard stationId={stationId} />
         <div className="flex-grow flex justify-center items-center">
           <button onClick={() => setStationClicked(false)}>
-            <MaterialSymbolsCancel className="w-16 h-16 text-gray-200 shadow-lg hover:scale-105 transition-all duration-300" />
+            <MaterialSymbolsCancel className="w-16 h-16 text-gray-200 shadow-lg hover:scale-105 transition-all duration-300 rounded-full" />
           </button>
         </div>
       </div>
 
       <div
         className={`w-full h-full bg-gray-950/50 flex flex-col absolute top-0 left-0 z-10 justify-center items-center p-8 ${
-          showDisruptionMessage
+          disruption.showMessage
             ? "opacity-100 pointer-events-none"
             : "opacity-0 pointer-events-none"
         } transition-opacity duration-300`}
       >
-        <div className="bg-white p-8 border border-gray-500 rounded-2xl">
-          <p className={`text-lg border-l-8 border-l-gray-400 pl-4`}>
-            {disruptionReason}
+        <div className="bg-white p-8 border border-gray-500 rounded-2xl flex flex-col gap-2">
+          <p className={`flex text-2xl pl-4`}>
+            {highlightStationName(disruption.reason, true)}
+          </p>
+          <div
+            className={`h-1 ${lineColors(
+              disruption.lineId,
+              "bg"
+            )} rounded-full`}
+          />
+
+          <p className={`flex text-md text-gray-600 pl-4`}>
+            {highlightStationName(disruption.reason, false)}
           </p>
         </div>
       </div>

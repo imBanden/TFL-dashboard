@@ -3,6 +3,7 @@ import { MaterialSymbolsInfoOutline } from "../icons/MaterialSymbolsInfoOutline"
 import MaterialSymbolsTramOutline from "../icons/MaterialSymbolsTramOutline";
 import MaterialSymbolsMenu from "../icons/MaterialSymbolsMenu";
 import MaterialSymbolsStickyNote2Outline from "../icons/MaterialSymbolsStickyNote2Outline";
+import MaterialSymbolsFavorite from "../icons/MaterialSymbolsFavorite";
 
 interface SidebarNavProps {
   handleSelectedPage: (selected: number) => void;
@@ -26,6 +27,11 @@ const SidebarNav = ({ handleSelectedPage }: SidebarNavProps) => {
       icon: MaterialSymbolsStickyNote2Outline,
       text: "Patch notes",
       selected: 2,
+    },
+    {
+      icon: MaterialSymbolsFavorite,
+      text: "Favourites",
+      selected: 3,
     },
   ];
   return (
