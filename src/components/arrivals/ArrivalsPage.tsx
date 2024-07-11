@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ArrivalBoard from "./ArrivalBoard";
 import StationWidget from "./StationWidget";
 import filterStations from "../utils/filterStations";
@@ -18,73 +18,86 @@ export interface StopPoint {
   favourite: boolean;
 }
 
-export interface stationStatus {
+export interface StationStatus {
   id: string;
   lineStatuses: any[];
 }
 
+interface ArrivlasPageProps {
+  stopPointData: StopPoint[];
+  isLoading: boolean;
+  status: StationStatus[];
+  favouriteData: StopPoint[];
+  handlefavouriteData: (array: StopPoint[]) => void;
+}
+
 const ArrivalsPage = ({
+  stopPointData,
+  isLoading,
+  status,
   favouriteData,
-}: {
-  favouriteData: (array: StopPoint[]) => void;
-}) => {
+  handlefavouriteData,
+}: ArrivlasPageProps) => {
   const [stationClicked, setStationClicked] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [stopPointData, setStopPointData] = useState<StopPoint[]>([]);
+  // const [stopPointData, setStopPointData] = useState<StopPoint[]>([]);
   const [stationId, setStationId] = useState<string>("940GZZDLCGT");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [statusArray, setStatusArray] = useState<stationStatus[]>([]);
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
+  // const [statusArray, setStatusArray] = useState<StationStatus[]>([]);
   const [disruption, setDisruption] = useState<{
     reason: string;
     showMessage: boolean;
     lineId: string;
   }>({ reason: "", showMessage: false, lineId: "" });
-  const [favouriteStopPoints, setFavouriteStopPoints] = useState<StopPoint[]>(
-    []
-  );
+  const [favouriteStopPoints, setFavouriteStopPoints] = useState<StopPoint[]>([
+    ...favouriteData,
+  ]);
 
-  useEffect(() => {
-    fetch(`https://api.tfl.gov.uk/StopPoint/Mode/tube,dlr`)
-      // fetch(`https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line`)
-      .then((res) => {
-        console.log(res.status, `fetched stop points`);
-        return res.json();
-      })
-      .then((data) => {
-        setStopPointData(
-          data.stopPoints
-            .filter(
-              (stopPoint: StopPoint) =>
-                stopPoint.stopType === "NaptanMetroStation" ||
-                stopPoint.stopType === "NaptanRailStation"
-            )
-            .map((item: StopPoint) => ({
-              ...item,
-              favourite: false,
-            }))
-        );
-        setIsLoading(false);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`https://api.tfl.gov.uk/StopPoint/Mode/tube,dlr`)
+  //     // fetch(`https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line`)
+  //     .then((res) => {
+  //       console.log(res.status, `fetched stop points`);
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setStopPointData(
+  //         data.stopPoints
+  //           .filter(
+  //             (stopPoint: StopPoint) =>
+  //               stopPoint.stopType === "NaptanMetroStation" ||
+  //               stopPoint.stopType === "NaptanRailStation"
+  //           )
+  //           .map((item: StopPoint) => ({
+  //             ...item,
+  //             favourite: false,
+  //           }))
+  //       );
+  //       setIsLoading(false);
+  //     });
+  // }, []);
 
-  useEffect(() => {
-    fetch(`https://api.tfl.gov.uk/Line/Mode/tube,dlr/Status`)
-      // fetch(`https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line`)
-      .then((res) => {
-        console.log(res.status, `fetched stop points`);
-        return res.json();
-      })
-      .then((data) => {
-        setStatusArray(data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`https://api.tfl.gov.uk/Line/Mode/tube,dlr/Status`)
+  //     // fetch(`https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line`)
+  //     .then((res) => {
+  //       console.log(res.status, `fetched stop points`);
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setStatusArray(
+  //         data.map((line: StationStatus) => ({
+  //           id: line.id,
+  //           lineStatuses: line.lineStatuses,
+  //         }))
+  //       );
+  //     });
+  // }, []);
 
-  const status: stationStatus[] = statusArray.map((line) => ({
-    id: line.id,
-    lineStatuses: line.lineStatuses,
-  }));
-
-  console.log(stopPointData);
+  // const status: StationStatus[] = statusArray.map((line) => ({
+  //   id: line.id,
+  //   lineStatuses: line.lineStatuses,
+  // }));
 
   return (
     <>
@@ -131,8 +144,23 @@ const ArrivalsPage = ({
                     addToFavourites={(isFavourite) => {
                       if (isFavourite) {
                         stopPoint.favourite = true;
-                        favouriteData([stopPoint, ...favouriteStopPoints]);
+                        handlefavouriteData([
+                          stopPoint,
+                          ...favouriteStopPoints,
+                        ]);
                         setFavouriteStopPoints((prev) => [stopPoint, ...prev]);
+                      } else {
+                        stopPoint.favourite = false;
+                        handlefavouriteData(
+                          favouriteStopPoints.filter(
+                            (stop) => stop.naptanId !== stopPoint.naptanId
+                          )
+                        );
+                        setFavouriteStopPoints(
+                          favouriteStopPoints.filter(
+                            (stop) => stop.naptanId !== stopPoint.naptanId
+                          )
+                        );
                       }
                     }}
                   />

@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import SidebarNav from "./components/SidebarNav";
 import AboutPage from "./components/about/AboutPage";
-import ArrivalsPage, { StopPoint } from "./components/arrivals/ArrivalsPage";
+import ArrivalsPage, {
+  StopPoint,
+  StationStatus,
+} from "./components/arrivals/ArrivalsPage";
 import MaterialSymbolsMenu from "./icons/MaterialSymbolsMenu";
 import NotesPage from "./components/notes/NotesPage";
 import FavouritePage from "./components/favourite/FavouritePage";
@@ -11,6 +14,50 @@ const App = () => {
   const [currPageIndex, setCurrPageIndex] = useState<number>(0);
   const [sideBarClicked, setSideBarClicked] = useState<boolean>(false);
   const [favouriteData, setFavouriteData] = useState<StopPoint[]>([]);
+  const [stopPointData, setStopPointData] = useState<StopPoint[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [statusArray, setStatusArray] = useState<StationStatus[]>([]);
+
+  useEffect(() => {
+    fetch(`https://api.tfl.gov.uk/StopPoint/Mode/tube,dlr`)
+      // fetch(`https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line`)
+      .then((res) => {
+        console.log(res.status, `fetched stop points`);
+        return res.json();
+      })
+      .then((data) => {
+        setStopPointData(
+          data.stopPoints
+            .filter(
+              (stopPoint: StopPoint) =>
+                stopPoint.stopType === "NaptanMetroStation" ||
+                stopPoint.stopType === "NaptanRailStation"
+            )
+            .map((item: StopPoint) => ({
+              ...item,
+              favourite: false,
+            }))
+        );
+        setIsLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(`https://api.tfl.gov.uk/Line/Mode/tube,dlr/Status`)
+      // fetch(`https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line`)
+      .then((res) => {
+        console.log(res.status, `fetched stop points`);
+        return res.json();
+      })
+      .then((data) => {
+        setStatusArray(
+          data.map((line: StationStatus) => ({
+            id: line.id,
+            lineStatuses: line.lineStatuses,
+          }))
+        );
+      });
+  }, []);
 
   return (
     <div className="flex w-full h-full overflow-hidden">
@@ -25,11 +72,23 @@ const App = () => {
           <p className="text-black text-lg">isMyTFLhere.com</p>
         </div>
         {currPageIndex === 0 && (
-          <ArrivalsPage favouriteData={(data) => setFavouriteData(data)} />
+          <ArrivalsPage
+            stopPointData={stopPointData}
+            isLoading={isLoading}
+            status={statusArray}
+            favouriteData={favouriteData}
+            handlefavouriteData={(data) => setFavouriteData(data)}
+          />
         )}
         {currPageIndex === 1 && <AboutPage />}
         {currPageIndex === 2 && <NotesPage />}
-        {currPageIndex === 3 && <FavouritePage favouriteData={favouriteData} />}
+        {currPageIndex === 3 && (
+          <FavouritePage
+            status={statusArray}
+            favouriteData={favouriteData}
+            handlefavouriteData={(data) => setFavouriteData(data)}
+          />
+        )}
       </div>
 
       {/* Menu slider */}

@@ -1,14 +1,15 @@
 import formatLineName from "../utils/formatLineName";
 import { bgLineColors } from "../utils/lineColors";
-import { stationStatus } from "../arrivals/ArrivalsPage";
+import { StationStatus } from "../arrivals/ArrivalsPage";
 import WarningBadge from "../WarningBadge";
 import MaterialSymbolsFavorite from "../../icons/MaterialSymbolsFavorite";
+import { useState } from "react";
 
 interface StationWidgetProps {
   name: string;
   lines: string[];
   id: string;
-  status: stationStatus[];
+  status: StationStatus[];
   isFavourite: boolean;
   setStationClicked: (id: string) => void;
   setDisruptionReason: (
@@ -29,14 +30,14 @@ const StationWidget = ({
   setDisruptionReason,
   addToFavourites,
 }: StationWidgetProps) => {
-  // const [favourite, setFavourite] = useState<boolean>(false);
+  const [favourite, setFavourite] = useState<boolean>(isFavourite);
   const handleClick = () => {
     setStationClicked(id);
   };
   const handleFavouriteClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    addToFavourites(!isFavourite);
-    // setFavourite((prev) => !prev);
+    addToFavourites(!favourite);
+    setFavourite((prev) => !prev);
   };
 
   return (
@@ -48,7 +49,7 @@ const StationWidget = ({
         <p className="md:text-2xl text-lg whitespace-normal">{name}</p>
         <div
           className={`${
-            isFavourite ? "text-red-400" : "text-gray-100"
+            favourite ? "text-red-400" : "text-gray-100"
           } flex justify-center items-center cursor-pointer transition-text duration-300`}
           onClick={handleFavouriteClick}
         >
@@ -57,9 +58,9 @@ const StationWidget = ({
       </div>
       <div className="w-full flex overflow-x-auto gap-2 scrollbar-hide">
         {status.map(
-          (item) =>
+          (item, index) =>
             lines.includes(item.id) && (
-              <>
+              <div key={index}>
                 {item.lineStatuses.map(
                   (lineStatus, index) =>
                     lineStatus.statusSeverityDescription != "Good Service" && (
@@ -80,7 +81,7 @@ const StationWidget = ({
                       />
                     )
                 )}
-              </>
+              </div>
             )
         )}
       </div>
