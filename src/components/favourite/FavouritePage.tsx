@@ -29,6 +29,7 @@ const FavouritePage = ({ favouriteData }: FavouritePageProps) => {
             }}
             status={[]}
             setDisruptionReason={() => console.log("hello")}
+            isFavourite={stopPoint.favourite}
             addToFavourites={() => console.log()}
           />
         ))}

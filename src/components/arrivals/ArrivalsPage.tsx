@@ -15,6 +15,7 @@ export interface StopPoint {
   lines: { id: string }[];
   lineModeGroups: { modeName: string }[];
   naptanId: string;
+  favourite: boolean;
 }
 
 export interface stationStatus {
@@ -51,13 +52,17 @@ const ArrivalsPage = ({
       })
       .then((data) => {
         setStopPointData(
-          data.stopPoints.filter(
-            (stopPoint: StopPoint) =>
-              stopPoint.stopType === "NaptanMetroStation" ||
-              stopPoint.stopType === "NaptanRailStation"
-          )
+          data.stopPoints
+            .filter(
+              (stopPoint: StopPoint) =>
+                stopPoint.stopType === "NaptanMetroStation" ||
+                stopPoint.stopType === "NaptanRailStation"
+            )
+            .map((item: StopPoint) => ({
+              ...item,
+              favourite: false,
+            }))
         );
-        // setStopPointData(data);
         setIsLoading(false);
       });
   }, []);
@@ -78,6 +83,8 @@ const ArrivalsPage = ({
     id: line.id,
     lineStatuses: line.lineStatuses,
   }));
+
+  console.log(stopPointData);
 
   return (
     <>
@@ -120,9 +127,10 @@ const ArrivalsPage = ({
                     setDisruptionReason={(reason, showMessage, lineId) => {
                       setDisruption({ reason, showMessage, lineId });
                     }}
+                    isFavourite={stopPoint.favourite}
                     addToFavourites={(isFavourite) => {
-                      console.log(isFavourite);
                       if (isFavourite) {
+                        stopPoint.favourite = true;
                         favouriteData([stopPoint, ...favouriteStopPoints]);
                         setFavouriteStopPoints((prev) => [stopPoint, ...prev]);
                       }

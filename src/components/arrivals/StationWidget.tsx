@@ -3,13 +3,13 @@ import { bgLineColors } from "../utils/lineColors";
 import { stationStatus } from "../arrivals/ArrivalsPage";
 import WarningBadge from "../WarningBadge";
 import MaterialSymbolsFavorite from "../../icons/MaterialSymbolsFavorite";
-import React, { useState } from "react";
 
 interface StationWidgetProps {
   name: string;
   lines: string[];
   id: string;
   status: stationStatus[];
+  isFavourite: boolean;
   setStationClicked: (id: string) => void;
   setDisruptionReason: (
     reason: string,
@@ -24,18 +24,19 @@ const StationWidget = ({
   lines,
   id,
   status,
+  isFavourite,
   setStationClicked,
   setDisruptionReason,
   addToFavourites,
 }: StationWidgetProps) => {
-  const [favourite, setFavourite] = useState<boolean>(false);
+  // const [favourite, setFavourite] = useState<boolean>(false);
   const handleClick = () => {
     setStationClicked(id);
   };
   const handleFavouriteClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    addToFavourites(!favourite);
-    setFavourite((prev) => !prev);
+    addToFavourites(!isFavourite);
+    // setFavourite((prev) => !prev);
   };
 
   return (
@@ -47,7 +48,7 @@ const StationWidget = ({
         <p className="md:text-2xl text-lg whitespace-normal">{name}</p>
         <div
           className={`${
-            favourite ? "text-red-400" : "text-gray-100"
+            isFavourite ? "text-red-400" : "text-gray-100"
           } flex justify-center items-center cursor-pointer transition-text duration-300`}
           onClick={handleFavouriteClick}
         >
