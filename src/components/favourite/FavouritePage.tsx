@@ -28,6 +28,8 @@ const FavouritePage = ({
     lineId: string;
   }>({ reason: "", showMessage: false, lineId: "" });
 
+  console.log(favouriteData);
+
   return (
     <>
       <div className="h-full flex flex-col gap-4 relative">
@@ -37,7 +39,7 @@ const FavouritePage = ({
               <div className="flex flex-col items-center gap-8">
                 <MaterialSymbolsHeartBroken className="h-12 w-12 text-gray-400" />
                 <p className="text-xl text-center text-gray-400">
-                  Currently you do not have a favourite station.
+                  You have no favourite station.
                 </p>
               </div>
             </div>
@@ -59,12 +61,12 @@ const FavouritePage = ({
                 isFavourite={stopPoint.favourite}
                 addToFavourites={(isFavourite) => {
                   if (!isFavourite) {
-                    stopPoint.favourite = false;
                     handlefavouriteData(
                       favouriteData.filter(
                         (stop) => stop.naptanId !== stopPoint.naptanId
                       )
                     );
+                    stopPoint.favourite = false;
                   }
                 }}
               />

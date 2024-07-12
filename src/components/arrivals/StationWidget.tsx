@@ -41,8 +41,12 @@ const StationWidget = ({
   };
 
   return (
+    // <div
+    //   className="flex flex-col justify-between max-w-[calc((100vw/2)*0.80)] w-[calc((100vw/2)*0.80)] md:w-[calc((100vw/4)*0.60)] h-[calc((100vw/2)*0.8)] md:h-[calc((100vw/5)*0.9)] flex-auto border border-gray-200 rounded-md shadow-md p-3 cursor-pointer hover:scale-105 transition-all duration-300"
+    //   onClick={() => handleClick()}
+    // >
     <div
-      className="flex flex-col justify-between max-w-[calc((100vw/2)*0.80)] w-[calc((100vw/2)*0.80)] md:w-[calc((100vw/4)*0.60)] h-[calc((100vw/2)*0.8)] md:h-[calc((100vw/5)*0.9)] flex-auto border border-gray-200 rounded-md shadow-md p-3 cursor-pointer hover:scale-105 transition-all duration-300"
+      className="flex flex-col justify-between w-[calc(100vw/3)] h-[calc(100vw/2.5)] max-w-[calc(100%/2.1)] md:w-[calc(100vw/5)] md:h-[calc(100vw/5)] md:max-w-[calc(100vw/5)] flex-auto border border-gray-200 rounded-md shadow-md p-3 cursor-pointer hover:scale-105 transition-all duration-300"
       onClick={() => handleClick()}
     >
       <div className="flex items-start justify-between">
@@ -51,7 +55,10 @@ const StationWidget = ({
           className={`${
             favourite ? "text-red-400" : "text-gray-100"
           } flex justify-center items-center cursor-pointer transition-text duration-300`}
-          onClick={handleFavouriteClick}
+          onClick={(e) => {
+            handleFavouriteClick(e);
+            console.log(name, "clicked");
+          }}
         >
           <MaterialSymbolsFavorite className="w-6 h-6" />
         </div>

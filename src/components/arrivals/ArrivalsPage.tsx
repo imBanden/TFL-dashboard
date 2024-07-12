@@ -114,7 +114,7 @@ const ArrivalsPage = ({
           }}
         />
         <div
-          className={`flex flex-row flex-wrap flex-grow gap-4 overflow-y-auto scrollbar-hide p-2 ${
+          className={`flex flex-row flex-wrap gap-4 overflow-y-auto scrollbar-hide p-2 ${
             isLoading && "justify-center items-center"
           }`}
         >
