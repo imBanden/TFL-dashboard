@@ -11,9 +11,16 @@ import NotesPage from "./components/notes/NotesPage";
 import FavouritePage from "./components/favourite/FavouritePage";
 
 const App = () => {
-  const [currPageIndex, setCurrPageIndex] = useState<number>(0);
+  if (localStorage.getItem("favouriteStopPoints") === null) {
+    localStorage.setItem("favouriteStopPoints", JSON.stringify([]));
+  }
   const [sideBarClicked, setSideBarClicked] = useState<boolean>(false);
-  const [favouriteData, setFavouriteData] = useState<StopPoint[]>([]);
+  const [favouriteData, setFavouriteData] = useState<StopPoint[]>(
+    JSON.parse(localStorage.getItem("favouriteStopPoints"))
+  );
+  const [currPageIndex, setCurrPageIndex] = useState<number>(
+    favouriteData.length != 0 ? 1 : 0
+  );
   const [stopPointData, setStopPointData] = useState<StopPoint[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [statusArray, setStatusArray] = useState<StationStatus[]>([]);
@@ -59,6 +66,11 @@ const App = () => {
       });
   }, []);
 
+  const onHandleFavouriteData = (data: StopPoint[]) => {
+    setFavouriteData(data);
+    localStorage.setItem("favouriteStopPoints", JSON.stringify(data));
+  };
+
   return (
     <div className="flex w-full h-full overflow-hidden">
       <div className="md:min-w-[300px] h-full hidden md:flex">
@@ -77,18 +89,18 @@ const App = () => {
             isLoading={isLoading}
             status={statusArray}
             favouriteData={favouriteData}
-            handlefavouriteData={(data) => setFavouriteData(data)}
+            handlefavouriteData={(data) => onHandleFavouriteData(data)}
           />
         )}
-        {currPageIndex === 1 && <AboutPage />}
-        {currPageIndex === 2 && <NotesPage />}
-        {currPageIndex === 3 && (
+        {currPageIndex === 1 && (
           <FavouritePage
             status={statusArray}
             favouriteData={favouriteData}
-            handlefavouriteData={(data) => setFavouriteData(data)}
+            handlefavouriteData={(data) => onHandleFavouriteData(data)}
           />
         )}
+        {currPageIndex === 2 && <AboutPage />}
+        {currPageIndex === 3 && <NotesPage />}
       </div>
 
       {/* Menu slider */}

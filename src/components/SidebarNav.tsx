@@ -10,7 +10,9 @@ interface SidebarNavProps {
 }
 
 const SidebarNav = ({ handleSelectedPage }: SidebarNavProps) => {
-  const [selected, setSelected] = useState<number>(0);
+  const [selected, setSelected] = useState<number>(
+    JSON.parse(localStorage.getItem("favouriteStopPoints")).length === 0 ? 0 : 1
+  );
 
   const navMenu = [
     {
@@ -19,18 +21,18 @@ const SidebarNav = ({ handleSelectedPage }: SidebarNavProps) => {
       selected: 0,
     },
     {
+      icon: MaterialSymbolsFavorite,
+      text: "Favourites",
+      selected: 1,
+    },
+    {
       icon: MaterialSymbolsInfoOutline,
       text: "About this app",
-      selected: 1,
+      selected: 2,
     },
     {
       icon: MaterialSymbolsStickyNote2Outline,
       text: "Patch notes",
-      selected: 2,
-    },
-    {
-      icon: MaterialSymbolsFavorite,
-      text: "Favourites",
       selected: 3,
     },
   ];

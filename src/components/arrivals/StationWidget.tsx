@@ -36,8 +36,8 @@ const StationWidget = ({
   };
   const handleFavouriteClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    addToFavourites(!favourite);
     setFavourite((prev) => !prev);
+    addToFavourites(!favourite);
   };
 
   return (

@@ -53,52 +53,6 @@ const ArrivalsPage = ({
     ...favouriteData,
   ]);
 
-  // useEffect(() => {
-  //   fetch(`https://api.tfl.gov.uk/StopPoint/Mode/tube,dlr`)
-  //     // fetch(`https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line`)
-  //     .then((res) => {
-  //       console.log(res.status, `fetched stop points`);
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setStopPointData(
-  //         data.stopPoints
-  //           .filter(
-  //             (stopPoint: StopPoint) =>
-  //               stopPoint.stopType === "NaptanMetroStation" ||
-  //               stopPoint.stopType === "NaptanRailStation"
-  //           )
-  //           .map((item: StopPoint) => ({
-  //             ...item,
-  //             favourite: false,
-  //           }))
-  //       );
-  //       setIsLoading(false);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   fetch(`https://api.tfl.gov.uk/Line/Mode/tube,dlr/Status`)
-  //     // fetch(`https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line`)
-  //     .then((res) => {
-  //       console.log(res.status, `fetched stop points`);
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setStatusArray(
-  //         data.map((line: StationStatus) => ({
-  //           id: line.id,
-  //           lineStatuses: line.lineStatuses,
-  //         }))
-  //       );
-  //     });
-  // }, []);
-
-  // const status: StationStatus[] = statusArray.map((line) => ({
-  //   id: line.id,
-  //   lineStatuses: line.lineStatuses,
-  // }));
-
   return (
     <>
       <div className="h-full flex flex-col gap-4 relative">
@@ -204,6 +158,16 @@ const ArrivalsPage = ({
           </p>
         </div>
       </div>
+
+      {/* <div
+        className={`w-full h-full flex flex-col absolute top-20 left-0 z-10 md:justify-center items-center pointer-events-none ${
+          toggleFavouriteMessage ? "animate-fadeInOut" : ""
+        }`}
+      >
+        <div className="bg-black rounded-lg p-2 px-4">
+          <p className="text-xl text-white">Added to favourites</p>
+        </div>
+      </div> */}
     </>
   );
 };
