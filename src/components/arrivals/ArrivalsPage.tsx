@@ -8,6 +8,9 @@ import MaterialSymbolsCancel from "../../icons/MaterialSymbolsCancel";
 import MaterialSymbolsProgressActivity from "../../icons/MaterialSymbolsProgressActivity";
 import highlightStationName from "../utils/highlightStationName";
 import { bgLineColors } from "../utils/lineColors";
+import Tags from "../Tags";
+import filterTags from "../utils/filterTags";
+import sortAlphabetically from "../utils/sortAlphabetically";
 
 export interface StopPoint {
   stopType: string;
@@ -21,6 +24,11 @@ export interface StopPoint {
 export interface StationStatus {
   id: string;
   lineStatuses: any[];
+}
+interface TransportTags {
+  underground: boolean;
+  dlr: boolean;
+  elizabeth: boolean;
 }
 
 interface ArrivlasPageProps {
@@ -52,6 +60,19 @@ const ArrivalsPage = ({
   const [favouriteStopPoints, setFavouriteStopPoints] = useState<StopPoint[]>([
     ...favouriteData,
   ]);
+  const [transportTags, setTransportTags] = useState<TransportTags>({
+    underground: false,
+    dlr: false,
+    elizabeth: false,
+  });
+  const handleToggle = (tagName: keyof TransportTags) => {
+    setTransportTags((prev) => ({ ...prev, [tagName]: !prev[tagName] }));
+  };
+
+  const tagsArray = Object.keys(transportTags).filter(
+    (key) => transportTags[key as keyof TransportTags]
+  );
+  // console.log(tagsArray);
 
   return (
     <>
@@ -67,6 +88,11 @@ const ArrivalsPage = ({
             setSearchQuery(e.target.value);
           }}
         />
+        <div className="flex flex-wrap gap-2">
+          <Tags onToggle={() => handleToggle("underground")}>Underground</Tags>
+          <Tags onToggle={() => handleToggle("dlr")}>DLR</Tags>
+          <Tags onToggle={() => handleToggle("elizabeth")}>Elizabeth</Tags>
+        </div>
         <div
           className={`flex flex-row flex-wrap gap-4 overflow-y-auto scrollbar-hide p-2 ${
             isLoading && "justify-center items-center"
@@ -75,11 +101,15 @@ const ArrivalsPage = ({
           {isLoading ? (
             <MaterialSymbolsProgressActivity className="w-12 h-12 text-gray-400 animate-spin" />
           ) : (
-            stopPointData.map(
+            sortAlphabetically(stopPointData).map(
               (stopPoint, index) =>
                 filterStations(
                   searchQuery,
                   formatStationName(stopPoint.commonName)
+                ) &&
+                filterTags(
+                  tagsArray,
+                  removeBus(stopPoint.lines.map((line) => line.id))
                 ) && (
                   <StationWidget
                     key={index}

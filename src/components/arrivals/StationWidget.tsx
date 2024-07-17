@@ -4,6 +4,7 @@ import { StationStatus } from "../arrivals/ArrivalsPage";
 import WarningBadge from "../WarningBadge";
 import MaterialSymbolsFavorite from "../../icons/MaterialSymbolsFavorite";
 import { useState } from "react";
+import filterModes from "../utils/filterModes";
 
 interface StationWidgetProps {
   name: string;
@@ -41,10 +42,6 @@ const StationWidget = ({
   };
 
   return (
-    // <div
-    //   className="flex flex-col justify-between max-w-[calc((100vw/2)*0.80)] w-[calc((100vw/2)*0.80)] md:w-[calc((100vw/4)*0.60)] h-[calc((100vw/2)*0.8)] md:h-[calc((100vw/5)*0.9)] flex-auto border border-gray-200 rounded-md shadow-md p-3 cursor-pointer hover:scale-105 transition-all duration-300"
-    //   onClick={() => handleClick()}
-    // >
     <div
       className="flex flex-col justify-between w-[calc(100vw/3)] h-[calc(100vw/2.5)] max-w-[calc(100%/2.1)] md:w-[calc(100vw/5)] md:h-[calc(100vw/5)] md:max-w-[calc(100vw/5)] flex-auto border border-gray-200 rounded-md shadow-md p-3 cursor-pointer hover:scale-105 transition-all duration-300"
       onClick={() => handleClick()}
@@ -67,7 +64,7 @@ const StationWidget = ({
         {status.map(
           (item, index) =>
             lines.includes(item.id) && (
-              <div key={index}>
+              <div key={index} className="flex gap-2">
                 {item.lineStatuses.map(
                   (lineStatus, index) =>
                     lineStatus.statusSeverityDescription != "Good Service" && (
@@ -93,7 +90,7 @@ const StationWidget = ({
         )}
       </div>
       <div className="flex flex-row flex-wrap gap-2">
-        {lines.map((line, index) => (
+        {filterModes(lines).map((line, index) => (
           <div key={index} className="flex flex-col">
             <p className="text-sm text-gray-500 px-0.5 select-none">
               {formatLineName(line)}

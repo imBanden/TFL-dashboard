@@ -16,7 +16,7 @@ const App = () => {
   }
   const [sideBarClicked, setSideBarClicked] = useState<boolean>(false);
   const [favouriteData, setFavouriteData] = useState<StopPoint[]>(
-    JSON.parse(localStorage.getItem("favouriteStopPoints"))
+    JSON.parse(localStorage.getItem("favouriteStopPoints") || "[]")
   );
   const [currPageIndex, setCurrPageIndex] = useState<number>(
     favouriteData.length != 0 ? 1 : 0
@@ -26,8 +26,7 @@ const App = () => {
   const [statusArray, setStatusArray] = useState<StationStatus[]>([]);
 
   useEffect(() => {
-    fetch(`https://api.tfl.gov.uk/StopPoint/Mode/tube,dlr`)
-      // fetch(`https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line`)
+    fetch(`https://api.tfl.gov.uk/StopPoint/Mode/dlr,elizabeth-line,tube`)
       .then((res) => {
         console.log(res.status, `fetched stop points`);
         return res.json();
@@ -39,6 +38,7 @@ const App = () => {
               (stopPoint: StopPoint) =>
                 stopPoint.stopType === "NaptanMetroStation" ||
                 stopPoint.stopType === "NaptanRailStation"
+              // stopPoint.stopType === "TransportInterchange"
             )
             .map((item: StopPoint) => ({
               ...item,
@@ -50,8 +50,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`https://api.tfl.gov.uk/Line/Mode/tube,dlr/Status`)
-      // fetch(`https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line`)
+    fetch(`https://api.tfl.gov.uk/Line/Mode/dlr,elizabeth-line,tube/Status`)
       .then((res) => {
         console.log(res.status, `fetched stop points`);
         return res.json();
@@ -70,6 +69,8 @@ const App = () => {
     setFavouriteData(data);
     localStorage.setItem("favouriteStopPoints", JSON.stringify(data));
   };
+
+  // console.log(stopPointData);
 
   return (
     <div className="flex w-full h-full overflow-hidden">

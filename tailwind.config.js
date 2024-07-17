@@ -20,6 +20,7 @@ export default {
       'victoria': '#0098D4',
       'waterloo-city': '#93CEBA',
       'dlr': '#00AFAD',
+      'london-overground': '#FA7B05'
     },
     fontFamily: {
       'dot-gothic': ['"DotGothic16"', 'sans-serif'],

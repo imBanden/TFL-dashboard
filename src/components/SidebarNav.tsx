@@ -11,7 +11,9 @@ interface SidebarNavProps {
 
 const SidebarNav = ({ handleSelectedPage }: SidebarNavProps) => {
   const [selected, setSelected] = useState<number>(
-    JSON.parse(localStorage.getItem("favouriteStopPoints")).length === 0 ? 0 : 1
+    JSON.parse(localStorage.getItem("favouriteStopPoints") || "[]").length === 0
+      ? 0
+      : 1
   );
 
   const navMenu = [

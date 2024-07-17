@@ -109,3 +109,44 @@ body {
 .animate-fadeInOut {
   animation: fadeInOut 3s ease-in-out forwards;
 }
+
+
+@keyframes custom {
+  0% {width: 0px;}
+  50% {width: 26px;}
+  100% {width: 20px;}
+}
+
+@keyframes custom2 {
+  0% {width: 20px;}
+  33% {width: 0px;}
+  66% {width: 4px;}
+  100% {width: 0px;}
+}
+
+@keyframes custom3 {
+  0% {width: 0px; height: 0px;}
+  66% {width: 22px; height: 22px;}
+  100% {width: 20px; height: 20px;}
+}
+
+@keyframes custom4 {
+  0% {width: 20px; height: 20px;}
+  100% {width: 0px; height: 0px;}
+}
+
+.custom-animate {
+  animation: custom 300ms ease-out forwards;
+}
+
+.custom-animate-2 {
+  animation: custom2 300ms ease-out forwards;
+}
+
+.custom-animate-3 {
+  animation: custom3 300ms ease-out forwards;
+}
+
+.custom-animate-4 {
+  animation: custom4 300ms ease-out forwards;
+}

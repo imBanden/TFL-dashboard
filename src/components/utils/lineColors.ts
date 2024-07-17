@@ -11,7 +11,8 @@ export const bgLineColors: Record<string, string> = {
     'piccadilly': 'bg-piccadilly',
     'victoria': 'bg-victoria',
     'waterloo-city': 'bg-waterloo-city',
-    'dlr': 'bg-dlr'
+    'dlr': 'bg-dlr',
+    'london-overground': 'bg-london-overground'
 }
 
 export const borderLLineColors: Record<string, string> = {
@@ -27,5 +28,6 @@ export const borderLLineColors: Record<string, string> = {
     'piccadilly': 'border-l-piccadilly',
     'victoria': 'border-l-victoria',
     'waterloo-city': 'border-l-waterloo-city',
-    'dlr': 'border-l-dlr'
+    'dlr': 'border-l-dlr',
+    'london-overground': 'border-london-overground'
 }
