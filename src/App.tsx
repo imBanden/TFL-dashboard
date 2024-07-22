@@ -26,7 +26,9 @@ const App = () => {
   const [statusArray, setStatusArray] = useState<StationStatus[]>([]);
 
   useEffect(() => {
-    fetch(`https://api.tfl.gov.uk/StopPoint/Mode/dlr,elizabeth-line,tube`)
+    fetch(
+      `https://api.tfl.gov.uk/StopPoint/Mode/dlr,elizabeth-line,tube,overground`
+    )
       .then((res) => {
         console.log(res.status, `fetched stop points`);
         return res.json();
@@ -50,7 +52,9 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`https://api.tfl.gov.uk/Line/Mode/dlr,elizabeth-line,tube/Status`)
+    fetch(
+      `https://api.tfl.gov.uk/Line/Mode/dlr,elizabeth-line,tube,overground/Status`
+    )
       .then((res) => {
         console.log(res.status, `fetched stop points`);
         return res.json();

@@ -17,6 +17,11 @@ const ArrivalBoard = ({ stationId }: { stationId: string }) => {
   const [currentStation, setCurrentStation] = useState<string>("");
   const [arrivalData, setArrivalData] = useState<trains[]>([]);
   const [isPending, setIsPending] = useState(true);
+  // const [stationIdLength, setStationIdLength] = useState<number>(
+  //   stationId.length
+  // );
+
+  // if (stationIdLength != 0) {
   useEffect(() => {
     setIsPending(true);
     const fetchData = () => {
@@ -33,7 +38,7 @@ const ArrivalBoard = ({ stationId }: { stationId: string }) => {
     };
 
     // Fetch data initially
-    fetchData();
+    setTimeout(fetchData, 5000);
 
     // Fetch data every second
     const interval = setInterval(fetchData, 1000);
@@ -41,6 +46,7 @@ const ArrivalBoard = ({ stationId }: { stationId: string }) => {
     // Clean up interval on component unmount
     return () => clearInterval(interval);
   }, [stationId]);
+  // }
 
   //   countdown convertor function
   function countDown(expectedArrival: string) {
