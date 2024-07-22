@@ -32,11 +32,11 @@ const SidebarNav = ({ handleSelectedPage }: SidebarNavProps) => {
       text: "About this app",
       selected: 2,
     },
-    {
-      icon: MaterialSymbolsStickyNote2Outline,
-      text: "Patch notes",
-      selected: 3,
-    },
+    // {
+    //   icon: MaterialSymbolsStickyNote2Outline,
+    //   text: "Patch notes",
+    //   selected: 3,
+    // },
   ];
   return (
     <div className="flex flex-col border-r w-full h-full border-r-gray-4000 p-4 gap-4">

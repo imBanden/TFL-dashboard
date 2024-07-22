@@ -113,7 +113,7 @@ body {
 
 @keyframes custom {
   0% {width: 0px;}
-  50% {width: 26px;}
+  80% {width: 26px;}
   100% {width: 20px;}
 }
 

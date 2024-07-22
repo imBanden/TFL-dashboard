@@ -1,3 +1,5 @@
+import MadeByImBanden from "../madeBy/MadeByImBanden";
+
 const AboutPage = () => {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -22,10 +24,7 @@ const AboutPage = () => {
         </ul>
       </div>
       <div className="flex gap-2 items-center">
-        <p>made with ❤️ by</p>
-        <a href="https://github.com/imBanden/" target="_blank">
-          <p className="text-lg">imBanden</p>
-        </a>
+        <MadeByImBanden />
       </div>
     </div>
   );

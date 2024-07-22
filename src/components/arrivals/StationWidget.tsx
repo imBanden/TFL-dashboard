@@ -89,13 +89,25 @@ const StationWidget = ({
             )
         )}
       </div>
-      <div className="flex flex-row flex-wrap gap-2">
+      {/* <div className="flex flex-row flex-wrap gap-2">
         {filterModes(lines).map((line, index) => (
           <div key={index} className="flex flex-col">
             <p className="text-sm text-gray-500 px-0.5 select-none">
               {formatLineName(line)}
             </p>
             <div className={`h-1 ${bgLineColors[line]} rounded-full`} />
+          </div>
+        ))}
+      </div> */}
+
+      <div className="flex flex-row flex-wrap gap-2">
+        {filterModes(lines).map((line, index) => (
+          <div key={index} className="flex flex-col">
+            <div
+              className={`${bgLineColors[line]} h-6 w-10 select-none flex justify-center items-center text-white text-md leading-none`}
+            >
+              {formatLineName(line).substring(0, 3).toUpperCase()}
+            </div>
           </div>
         ))}
       </div>
