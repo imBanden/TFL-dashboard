@@ -29,6 +29,7 @@ interface TransportTags {
   underground: boolean;
   dlr: boolean;
   elizabeth: boolean;
+  overground: boolean;
 }
 
 interface ArrivlasPageProps {
@@ -64,6 +65,7 @@ const ArrivalsPage = ({
     underground: false,
     dlr: false,
     elizabeth: false,
+    overground: false,
   });
   const handleToggle = (tagName: keyof TransportTags) => {
     setTransportTags((prev) => ({ ...prev, [tagName]: !prev[tagName] }));
@@ -92,6 +94,7 @@ const ArrivalsPage = ({
           <Tags onToggle={() => handleToggle("underground")}>Underground</Tags>
           <Tags onToggle={() => handleToggle("dlr")}>DLR</Tags>
           <Tags onToggle={() => handleToggle("elizabeth")}>Elizabeth</Tags>
+          <Tags onToggle={() => handleToggle("overground")}>Overground</Tags>
         </div>
         <div
           className={`flex flex-row flex-wrap gap-4 overflow-y-auto scrollbar-hide p-2 ${
